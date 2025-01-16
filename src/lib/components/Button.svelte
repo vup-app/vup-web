@@ -21,6 +21,30 @@
 </button>
 
 <style>
+    @property --c1Sat {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+
+    @property --c2Sat {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+
+    @property --c1Light {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+
+    @property --c2Light {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+
     .button {
         padding: var(--space-2xs);
         font-size: var(--step-0);
@@ -41,8 +65,6 @@
     .secondary {
         border-radius: var(--radii-pill);
         font-weight: 500;
-        padding-block: var(--space-xs);
-        padding-inline: var(--space-m);
         border-width: 1px;
         border-style: solid;
         border-color: transparent;
@@ -57,17 +79,114 @@
         }
     }
 
+    .branded,
+    .primary {
+        padding-block: calc(var(--space-xs) + 2px);
+        padding-inline: calc(var(--space-m) + 2px);
+    }
+
     .branded {
-        outline: 1px solid red !important;
+        --c1Sat: 85%;
+        --c1Light: 70%;
+        --c2Sat: 100%;
+        --c2Light: 40%;
+        --color1: hsl(113, var(--c1Sat), var(--c1Light));
+        --color2: hsl(113, var(--c2Sat), var(--c2Light));
+        --inset-box-shadow-color: hsl(113, 95%, 80%);
+        --gradientTransitionDuration: 250ms;
+        --inset-box-shadow: inset 0 10px 8px 0 var(--inset-box-shadow-color);
+
+        background-image: linear-gradient(
+            to bottom,
+            var(--color1),
+            var(--color2)
+        );
+        border: none;
+        transition:
+            --c1Sat var(--gradientTransitionDuration),
+            --c1Light var(--gradientTransitionDuration),
+            --c2Sat var(--gradientTransitionDuration),
+            --c2Light var(--gradientTransitionDuration),
+            box-shadow 75ms,
+            transform 150ms;
+
+        box-shadow:
+            var(--inset-box-shadow),
+            0px 25px 10px rgba(0, 55, 3, 0.01),
+            0px 14px 8px rgba(0, 55, 3, 0.04),
+            0px 6px 6px rgba(0, 55, 3, 0.07),
+            0px 2px 3px rgba(0, 55, 3, 0.08);
+        box-shadow:
+            var(--inset-box-shadow),
+            0px 25px 10px color(display-p3 0.008 0.212 0.043 / 0.01),
+            0px 14px 8px color(display-p3 0.008 0.212 0.043 / 0.04),
+            0px 6px 6px color(display-p3 0.008 0.212 0.043 / 0.07),
+            0px 2px 3px color(display-p3 0.008 0.212 0.043 / 0.08);
+
+        &:hover,
+        &:focus {
+            --c1Sat: 100%;
+            --c1Light: 78%;
+            --c2Sat: 100%;
+            --c2Light: 43%;
+            --inset-box-shadow: inset 0 15px 7px 0 var(--inset-box-shadow-color);
+            cursor: pointer;
+            transform: scale(1.05);
+
+            box-shadow:
+                var(--inset-box-shadow),
+                0px 38px 15px rgba(0, 55, 3, 0.01),
+                0px 21px 13px rgba(0, 55, 3, 0.04),
+                0px 9px 9px rgba(0, 55, 3, 0.06),
+                0px 2px 5px rgba(0, 55, 3, 0.07);
+            box-shadow:
+                var(--inset-box-shadow),
+                0px 38px 15px color(display-p3 0.008 0.212 0.043 / 0.01),
+                0px 21px 13px color(display-p3 0.008 0.212 0.043 / 0.04),
+                0px 9px 9px color(display-p3 0.008 0.212 0.043 / 0.06),
+                0px 2px 5px color(display-p3 0.008 0.212 0.043 / 0.07);
+        }
+
+        &:active {
+            --c1Sat: 90%;
+            --c1Light: 65%;
+            --c2Sat: 100%;
+            --c2Light: 35%;
+            --inset-box-shadow-color: hsla(113, 95%, 80%, 0.5);
+            transform: scale(1);
+
+            box-shadow:
+                var(--inset-box-shadow),
+                0px 10px 4px rgba(0, 55, 3, 0.01),
+                0px 6px 3px rgba(0, 55, 3, 0.05),
+                0px 3px 3px rgba(0, 55, 3, 0.09),
+                0px 1px 1px rgba(0, 55, 3, 0.1);
+            box-shadow:
+                var(--inset-box-shadow),
+                0px 10px 4px color(display-p3 0.008 0.212 0.043 / 0.01),
+                0px 6px 3px color(display-p3 0.008 0.212 0.043 / 0.05),
+                0px 3px 3px color(display-p3 0.008 0.212 0.043 / 0.09),
+                0px 1px 1px color(display-p3 0.008 0.212 0.043 / 0.1);
+        }
+
+        &[disabled] {
+            box-shadow: none;
+            background: #93c58d;
+            color: #47754a;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
     }
 
     .primary {
-        outline: 1px solid blue !important;
+        border-color: red;
     }
 
     .secondary {
         background-color: #e2e2e2;
         border: 1px solid #e2e2e2;
+        padding-block: var(--space-xs);
+        padding-inline: var(--space-m);
 
         transition:
             outline-color 150ms ease,
