@@ -28,7 +28,7 @@
     }
 
     @property --c2Sat {
-        syntax: "<percentage>";
+        syntax: "<number>";
         inherits: false;
         initial-value: 0%;
     }
@@ -45,19 +45,30 @@
         initial-value: 0%;
     }
 
+    @property --inset-shadow-opacity {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+    }
+
     .button {
         padding: var(--space-2xs);
         font-size: var(--step-0);
         cursor: pointer;
         outline: 4px solid rgba(0, 0, 0, 0);
-    }
 
-    .button:focus {
-        outline: 4px solid #fdd3b3;
-    }
+        &:hover,
+        &:focus {
+            cursor: pointer;
+        }
 
-    .button[disabled] {
-        pointer-events: none;
+        &:focus {
+            outline: 4px solid #fdd3b3;
+        }
+
+        &[disabled] {
+            pointer-events: none;
+        }
     }
 
     .branded,
@@ -77,10 +88,15 @@
         &:active {
             transform: translateY(1px);
         }
+
+        &[disabled] {
+            box-shadow: none;
+        }
     }
 
     .branded,
     .primary {
+        --gradientTransitionDuration: 250ms;
         padding-block: calc(var(--space-xs) + 2px);
         padding-inline: calc(var(--space-m) + 2px);
     }
@@ -93,15 +109,7 @@
         --color1: hsl(113, var(--c1Sat), var(--c1Light));
         --color2: hsl(113, var(--c2Sat), var(--c2Light));
         --inset-box-shadow-color: hsl(113, 95%, 80%);
-        --gradientTransitionDuration: 250ms;
         --inset-box-shadow: inset 0 10px 8px 0 var(--inset-box-shadow-color);
-
-        background-image: linear-gradient(
-            to bottom,
-            var(--color1),
-            var(--color2)
-        );
-        border: none;
         transition:
             --c1Sat var(--gradientTransitionDuration),
             --c1Light var(--gradientTransitionDuration),
@@ -109,6 +117,13 @@
             --c2Light var(--gradientTransitionDuration),
             box-shadow 75ms,
             transform 150ms;
+        border: none;
+
+        background-image: linear-gradient(
+            to bottom,
+            var(--color1),
+            var(--color2)
+        );
 
         box-shadow:
             var(--inset-box-shadow),
@@ -130,9 +145,7 @@
             --c2Sat: 100%;
             --c2Light: 43%;
             --inset-box-shadow: inset 0 15px 7px 0 var(--inset-box-shadow-color);
-            cursor: pointer;
             transform: scale(1.05);
-
             box-shadow:
                 var(--inset-box-shadow),
                 0px 38px 15px rgba(0, 55, 3, 0.01),
@@ -170,16 +183,45 @@
         }
 
         &[disabled] {
-            box-shadow: none;
             background: #93c58d;
             color: #47754a;
-            pointer-events: none;
-            cursor: not-allowed;
         }
     }
 
     .primary {
-        border-color: red;
+        color: rgba(0, 0, 0, 1);
+        background-color: #f5f4f4;
+        box-shadow:
+            inset 0 10px 8px 0 #fff,
+            0 0 0 1px rgba(0, 0, 0, 0.08),
+            0 1px 2px 0 rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+
+        transition:
+            box-shadow 150ms ease,
+            color 150ms ease;
+
+        &:hover,
+        &:focus {
+            color: rgba(0, 0, 0, 0.65);
+            box-shadow:
+                inset 0 20px 6px 0 #fff,
+                0 0 0 1px rgba(0, 0, 0, 0.08),
+                0 2px 3px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            color: rgba(0, 0, 0, 1);
+            box-shadow:
+                inset 0 5px 12px 0 #fff,
+                0 0 0 1px rgba(0, 0, 0, 0.08),
+                0 0px 1px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        &[disabled] {
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+            color: rgba(0, 0, 0, 0.6);
+        }
     }
 
     .secondary {
@@ -207,6 +249,10 @@
             background-color: #c9c9c9;
             border-color: #c9c9c9;
         }
+
+        &[disabled] {
+            color: #939393;
+        }
     }
 
     .ghost {
@@ -219,22 +265,22 @@
             outline-color 150ms ease,
             text-underline-offset 75ms ease,
             transform 75ms ease;
-    }
 
-    .ghost:hover,
-    .ghost:focus {
-        transform: translateY(-4px);
-        text-decoration-color: #5b5b5b;
-        text-underline-offset: 6px;
-    }
+        &:hover,
+        &:focus {
+            transform: translateY(-4px);
+            text-decoration-color: #5b5b5b;
+            text-underline-offset: 6px;
+        }
 
-    .ghost:active {
-        transform: translateY(-2px);
-        text-underline-offset: 3px;
-    }
+        &:active {
+            transform: translateY(-2px);
+            text-underline-offset: 3px;
+        }
 
-    .ghost[disabled] {
-        color: #bcbcbc;
-        text-decoration-color: currentColor;
+        &[disabled] {
+            color: #bcbcbc;
+            text-decoration-color: currentColor;
+        }
     }
 </style>

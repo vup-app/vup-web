@@ -19,6 +19,10 @@
 
 <!-- More on writing stories with args: https://storybook.js.org/docs/writing-stories/args -->
 <Story name="Branded" args={{ variant: "branded", label: "Branded" }} />
+<Story
+    name="Branded (Disabled)"
+    args={{ variant: "branded", label: "Branded", isDisabled: true }}
+/>
 <Story name="Primary" args={{ variant: "primary", label: "Primary" }} />
 <Story name="Secondary" args={{ variant: "secondary", label: "Secondary" }} />
 <Story name="Ghost" args={{ variant: "ghost", label: "Ghost" }} />
