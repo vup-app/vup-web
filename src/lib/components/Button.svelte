@@ -45,12 +45,6 @@
         initial-value: 0%;
     }
 
-    @property --inset-shadow-opacity {
-        syntax: "<percentage>";
-        inherits: false;
-        initial-value: 0%;
-    }
-
     .button {
         padding: var(--space-2xs);
         font-size: var(--step-0);
@@ -80,6 +74,9 @@
         border-style: solid;
         border-color: transparent;
 
+        padding-block: calc(var(--space-2xs) + 2px);
+        padding-inline: calc(var(--space-s) + 2px);
+
         &:hover,
         &:focus {
             transform: translateY(-1px);
@@ -97,8 +94,6 @@
     .branded,
     .primary {
         --gradientTransitionDuration: 250ms;
-        padding-block: calc(var(--space-xs) + 2px);
-        padding-inline: calc(var(--space-m) + 2px);
     }
 
     .branded {
@@ -227,8 +222,6 @@
     .secondary {
         background-color: #e2e2e2;
         border: 1px solid #e2e2e2;
-        padding-block: var(--space-xs);
-        padding-inline: var(--space-m);
 
         transition:
             outline-color 150ms ease,
