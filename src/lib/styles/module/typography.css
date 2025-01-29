@@ -59,17 +59,17 @@
 }
 
 .u\:lh-tight {
-    line-height: 1.2;
+    line-height: var(--lh-tight);
 }
 
 .u\:lh-normal {
-    line-height: 1.4;
+    line-height: var(--lh-normal);
 }
 
 .u\:lh-airy {
-    line-height: 1.6;
+    line-height: var(--lh-airy);
 }
 
 .u\:lh-ui {
-    line-height: 1;
+    line-height: var(--lh-ui);
 }
