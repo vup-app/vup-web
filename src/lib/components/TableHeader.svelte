@@ -2,6 +2,6 @@
 
 <style>
     .table-header {
-        border-block-end: 1px solid rgba(0, 0, 0, 0.2);
+        border-block-end: 2px solid rgba(0, 0, 0, 0.1);
     }
 </style>
