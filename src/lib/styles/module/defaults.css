@@ -1,5 +1,5 @@
 :root {
-    font-family: inter, serif;
+    font-family: inter, system-ui, sans-serif;
     font-feature-settings:
         "liga" 1,
         "calt" 1; /* fix for Chrome */
@@ -7,6 +7,6 @@
 
 @supports (font-variation-settings: normal) {
     :root {
-        font-family: InterVariable, serif;
+        font-family: InterVariable, system-ui, sans-serif;
     }
 }
