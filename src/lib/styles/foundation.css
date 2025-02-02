@@ -7,3 +7,4 @@
 @import "./module/reset.css" layer(reset);
 @import "./module/line-height.css" layer(token);
 @import "./module/space.css" layer(token);
+@import "./module/typography.css" layer(utility);
