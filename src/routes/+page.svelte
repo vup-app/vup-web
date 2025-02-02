@@ -14,9 +14,9 @@
     documentation
 </p>
 <SortableTable>
-    <TableCaption>
-        This is a caption for the table. This is necessary for accessibility
-    </TableCaption>
+    <TableCaption
+        caption="This is a caption for the table. This is necessary for accessibility"
+    />
     <TableHeader>
         <TableRow>
             <TableHeaderCell heading="Heading One" />
