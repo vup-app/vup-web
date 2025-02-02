@@ -18,7 +18,7 @@
 <style>
     .passphraseCard {
         max-width: 430px;
-        background-color: #09531a;
+        background-color: var(--hue-emerald-800);
         padding-block: var(--space-s);
         padding-inline: var(--space-l);
         border-radius: var(--radii-soft);
@@ -34,13 +34,18 @@
     .title {
         text-transform: uppercase;
         font-size: var(--step--2);
-        color: #c9b0e2;
+        color: var(--hue-pink-300);
         font-weight: 600;
     }
 
     .code {
         font-family: monospace;
-        background-image: linear-gradient(135deg, #b0d9b9, #ffffff, #80f69b);
+        background-image: linear-gradient(
+            135deg,
+            var(--hue-emerald-300),
+            var(--hue-slate-50),
+            var(--hue-emerald-300)
+        );
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -49,7 +54,7 @@
 
     .button {
         font-size: var(--step--1);
-        color: #c1dec4;
+        color: var(--hue-emerald-200);
         border: 1px solid #437a50;
         border-radius: var(--radii-pill);
         padding-block: var(--space-3xs);
