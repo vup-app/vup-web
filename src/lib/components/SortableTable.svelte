@@ -1,5 +1,3 @@
-<div class="sortableTable">
-    <table>
-        <slot />
-    </table>
-</div>
+<table class="sortable-table">
+    <slot />
+</table>
