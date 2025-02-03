@@ -4,7 +4,7 @@
 
 <th scope="col" class="th-cell">
     <span class="th-label">{heading}</span>
-    <button>Sort by {heading}</button>
+    <button><span>i</span><span data-visually-hidden>Sort by {heading}</span></button>
 </th>
 
 <style>
