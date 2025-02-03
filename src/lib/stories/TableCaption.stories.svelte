@@ -8,7 +8,9 @@
         title: "Component/Table/Table Caption",
         component: TableCaption,
         tags: ["autodocs"],
-        args: {},
+        args: {
+            caption: "string",
+        },
     });
 </script>
 

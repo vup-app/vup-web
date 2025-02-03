@@ -20,20 +20,20 @@
         </TableRow>
     </TableHeader>
     <TableBody>
-        <tr>
+        <TableRow>
             <TableDataCell>File_name.mp4</TableDataCell>
             <TableDataCell>273mb</TableDataCell>
             <TableDataCell>Jun 25, 2021 at 9:20 PM</TableDataCell>
-        </tr>
-        <tr>
+        </TableRow>
+        <TableRow>
             <TableDataCell>Presentation.pdf</TableDataCell>
             <TableDataCell>9mb</TableDataCell>
             <TableDataCell>Dec 19, 2015 at 11:20 AM</TableDataCell>
-        </tr>
-        <tr>
+        </TableRow>
+        <TableRow>
             <TableDataCell>Logo_handoff_final_finalv2.zip</TableDataCell>
             <TableDataCell>1.2gb</TableDataCell>
             <TableDataCell>Aug 01, 2021 at 12:36 PM</TableDataCell>
-        </tr>
+        </TableRow>
     </TableBody>
 </SortableTable>
