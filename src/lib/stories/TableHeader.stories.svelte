@@ -1,6 +1,6 @@
 <script module>
     import { defineMeta } from "@storybook/addon-svelte-csf";
-    import TableHeader from "./TableHeader.svelte";
+    import TableHeader from "$lib/components/TableHeader.svelte";
     import { fn } from "@storybook/test";
 
     // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

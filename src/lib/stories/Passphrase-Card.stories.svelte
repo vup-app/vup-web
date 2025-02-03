@@ -1,6 +1,6 @@
 <script module>
     import { defineMeta } from "@storybook/addon-svelte-csf";
-    import Button from "./Passphrase-Card.svelte";
+    import Button from "$lib/components/Passphrase-Card.svelte";
     import { fn } from "@storybook/test";
 
     const demoPassphrase = `cap gnal cirs foo kouw keap noos paix teem cler gnex douh cap gnal cirs foo kouw keap noos paix teem cler gnex douh cap gnal cirs foo kouw keap noos paix teem cler gnex douh cap gnal cirs foo`;
