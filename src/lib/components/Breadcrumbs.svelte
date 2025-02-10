@@ -13,21 +13,70 @@
 </script>
 
 <nav aria-label="Directory navigation">
-    <ol>
+    <ol class="breadcrumbs">
         {#if path.length > 4}
-            <li>
-                <button onclick={() => handleDirChange("home")}>home</button>
+            <li class="dir">
+                <button class="dir-btn" onclick={() => handleDirChange("home")}>
+                    home
+                </button>
             </li>
-            <li>
+            <li class="dir">
                 <span role="presentation">…</span>
                 <span data-visually-hidden>truncated directory</span>
             </li>
         {/if}
         {#each path.length > 4 ? path.slice(-4, -1) : path.slice(0, -1) as dir, index}
-            <li>
-                <button onclick={() => handleDirChange(dir)}>{dir}</button>
+            <li class="dir">
+                <button class="dir-btn" onclick={() => handleDirChange(dir)}>
+                    {dir}
+                </button>
             </li>
         {/each}
     </ol>
-    <div aria-current={path[path.length - 1]}>{path[path.length - 1]}</div>
+    <div class="u:step-5 u:fw-600" aria-current={path[path.length - 1]}>
+        {path[path.length - 1]}
+    </div>
 </nav>
+
+<style>
+    .breadcrumbs {
+        list-style-type: none;
+    }
+
+    .dir {
+        display: inline-block;
+        font-size: var(--step--1);
+
+        & + & {
+            margin-inline-start: var(--space-2xs);
+
+            &:before {
+                content: "/";
+                color: var(--hue-neutral-300);
+                font-weight: 600;
+                /* background-color: var(--hue-neutral-300); */
+                width: 2px;
+                display: inline-block;
+                /* height: 1.2em; */
+                /* transform: rotate(20deg); */
+                /* vertical-align: middle; */
+                /* margin-top: -2px; */
+                /* border-radius: 2px; */
+                margin-inline-end: var(--space-xs);
+            }
+        }
+    }
+
+    .dir-btn {
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+</style>

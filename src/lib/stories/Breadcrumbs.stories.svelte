@@ -12,6 +12,7 @@
         tags: ["autodocs"],
         args: {
             path: path,
+            onClick: fn(),
         },
     });
 </script>
