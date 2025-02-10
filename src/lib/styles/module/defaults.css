@@ -10,3 +10,15 @@
         font-family: InterVariable, system-ui, sans-serif;
     }
 }
+
+body {
+    background-color: white;
+    color: var(--hue-neutral-950);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--hue-neutral-950);
+        color: var(--hue-neutral-50);
+    }
+}
