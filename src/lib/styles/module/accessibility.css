@@ -13,6 +13,8 @@
     display: inline-block;
     white-space: nowrap;
     right: 0;
+    color: transparent;
+    background: transparent;
 }
 [hidden] {
     display: none;
