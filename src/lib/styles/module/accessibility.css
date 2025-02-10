@@ -1,5 +1,5 @@
-[visually-hidden]:not(#specificityOverride),
-[visually-hidden="true"]:not(#specificityOverride) {
+[data-visually-hidden]:not(#specificityOverride),
+[data-visually-hidden="true"]:not(#specificityOverride) {
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
     -webkit-clip-path: inset(50%);
