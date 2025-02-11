@@ -2,13 +2,7 @@
     const { path, onClick } = $props();
 
     const handleDirChange = (dir: string) => {
-        if (dir == "home") {
-            onClick(dir);
-        } else {
-            const clickedPathIndex = path.indexOf(dir);
-            const newPath = path.slice(0, clickedPathIndex + 1);
-            onClick(newPath);
-        }
+        onClick(dir);
     };
 </script>
 
@@ -33,7 +27,10 @@
             </li>
         {/each}
     </ol>
-    <div class="u:step-5 u:fw-600" aria-current={path[path.length - 1]}>
+    <div
+        class="currentDir u:step-5 u:fw-600"
+        aria-current={path[path.length - 1]}
+    >
         {path[path.length - 1]}
     </div>
 </nav>
@@ -41,42 +38,52 @@
 <style>
     .breadcrumbs {
         list-style-type: none;
+        display: block;
+        margin-left: calc(-1 * var(--space-2xs));
     }
 
     .dir {
         display: inline-block;
         font-size: var(--step--1);
 
-        & + & {
-            margin-inline-start: var(--space-2xs);
-
-            &:before {
-                content: "/";
-                color: var(--hue-neutral-300);
-                font-weight: 600;
-                /* background-color: var(--hue-neutral-300); */
-                width: 2px;
-                display: inline-block;
-                /* height: 1.2em; */
-                /* transform: rotate(20deg); */
-                /* vertical-align: middle; */
-                /* margin-top: -2px; */
-                /* border-radius: 2px; */
-                margin-inline-end: var(--space-xs);
-            }
+        &:after {
+            content: "/";
+            color: var(--hue-neutral-300);
+            font-weight: 600;
+            display: inline-block;
+            margin-inline: var(--space-3xs);
         }
     }
 
     .dir-btn {
         cursor: pointer;
+        padding-block: var(--space-2xs);
+        padding-inline: var(--space-2xs);
+        border-radius: var(--radii-chip);
+        outline: 4px solid transparent;
 
         &:hover,
         &:focus {
             text-decoration: underline;
         }
 
+        &:focus {
+            outline: 4px solid var(--hue-amber-300);
+        }
+
         &:active {
             transform: translateY(1px);
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .dir:after {
+            color: var(--hue-neutral-800);
+            /* outline: 1px solid red; */
+        }
+
+        .dir-btn:focus {
+            outline-color: var(--hue-amber-700);
         }
     }
 </style>
