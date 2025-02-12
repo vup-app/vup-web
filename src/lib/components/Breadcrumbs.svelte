@@ -6,34 +6,42 @@
     };
 </script>
 
-<nav aria-label="Directory navigation">
-    <ol class="breadcrumbs">
-        {#if path.length > 4}
-            <li class="dir">
-                <button class="dir-btn" onclick={() => handleDirChange("home")}>
-                    home
-                </button>
-            </li>
-            <li class="dir">
-                <span role="presentation">…</span>
-                <span data-visually-hidden>truncated directory</span>
-            </li>
-        {/if}
-        {#each path.length > 4 ? path.slice(-4, -1) : path.slice(0, -1) as dir, index}
-            <li class="dir">
-                <button class="dir-btn" onclick={() => handleDirChange(dir)}>
-                    {dir}
-                </button>
-            </li>
-        {/each}
-    </ol>
+<div class="breadcrumb-component">
+    {#if path.length > 1}
+        <nav aria-label="File Directory">
+            <ol class="breadcrumbs">
+                {#if path.length > 4}
+                    <li class="dir">
+                        <button
+                            class="dir-btn"
+                            onclick={() => handleDirChange("home")}>home</button
+                        >
+                    </li>
+                    <li class="dir">
+                        <span role="presentation">…</span>
+                        <span data-visually-hidden>
+                            truncated directory path
+                        </span>
+                    </li>
+                {/if}
+                {#each path.length > 4 ? path.slice(-4, -1) : path.slice(0, -1) as dir, index}
+                    <li class="dir">
+                        <button
+                            class="dir-btn"
+                            onclick={() => handleDirChange(dir)}>{dir}</button
+                        >
+                    </li>
+                {/each}
+            </ol>
+        </nav>
+    {/if}
     <div
         class="currentDir u:step-5 u:fw-600"
         aria-current={path[path.length - 1]}
     >
         {path[path.length - 1]}
     </div>
-</nav>
+</div>
 
 <style>
     .breadcrumbs {
