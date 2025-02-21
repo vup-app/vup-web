@@ -10,6 +10,8 @@
         args: {
             label: "Input Label",
             placeholder: "Placeholder",
+            isDisabled: false,
+            isRequired: false,
         },
     });
 </script>
