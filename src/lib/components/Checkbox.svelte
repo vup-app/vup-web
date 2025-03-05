@@ -10,11 +10,7 @@
 
     const fieldId = crypto.randomUUID();
 
-    // Handle the change event when checkbox is clicked
-    const handleChange = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        checked.set(target.checked);
-    };
+    // No need for a separate change handler as bind:checked handles this automatically
 </script>
 
 <div class="checkbox-wrapper">
@@ -23,8 +19,7 @@
         id={fieldId}
         type="checkbox"
         {...isDisabled && { disabled: true }}
-        {...isRequired && { required: true }}
-        onchange={handleChange}
+        {...isRequired && { required: true, "aria-required": "true" }}
         bind:checked={$checked}
     />
     <label class="label" for={fieldId}>{label}</label>
@@ -34,6 +29,11 @@
     .checkbox-wrapper {
         display: inline-flex;
         align-items: center;
+    }
+
+    .checkbox-wrapper:has(.checkbox[disabled]) {
+        pointer-events: none;
+        opacity: 0.4;
     }
 
     .checkbox + .label {
