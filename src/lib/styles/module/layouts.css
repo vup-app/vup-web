@@ -1,0 +1,10 @@
+.c\:spread-items {
+    --flex-direction: initial;
+    --padding-inline: initial;
+    --padding-block: initial;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: var(--flex-direction);
+    padding-inline: var(--padding-inline);
+    padding-block: var(--padding-block);
+}
