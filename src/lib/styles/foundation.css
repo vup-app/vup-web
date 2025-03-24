@@ -5,6 +5,7 @@
 @import "./module/color.css" layer(token);
 @import "./module/defaults.css" layer(global);
 @import "./module/font-size.css" layer(token);
+@import "./module/layouts.css" layer(composition);
 @import "./webfont/inter/inter.css" layer(webfont);
 @import "./module/reset.css" layer(reset);
 @import "./module/line-height.css" layer(token);

@@ -1,6 +1,6 @@
 :root {
     --radii-sharp: 0px;
-    --radii-pill: 5000px;
+    --radii-pill: calc(infinity * 1px);
     --radii-chip: 4px;
     --radii-default: 6px;
     --radii-soft: 14px;
