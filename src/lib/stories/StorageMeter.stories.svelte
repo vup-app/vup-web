@@ -36,7 +36,7 @@
     name="Medium Usage"
     args={{
         locationName: "Storage Location",
-        storedAmount: 84404600,
+        storedAmount: 104910564,
         maxStorage: 209715200,
     }}
 />

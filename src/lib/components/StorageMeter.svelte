@@ -6,6 +6,24 @@
         maxStorage = undefined,
     } = $props();
 
+    let meterStyleClass = $state<string | undefined>(undefined);
+
+    $effect(() => {
+        if (!maxStorage || !storedAmount) return;
+
+        const usageRatio = storedAmount / maxStorage;
+
+        if (usageRatio >= 1) {
+            meterStyleClass = "max-use";
+        } else if (usageRatio > 0.8) {
+            meterStyleClass = "high-use";
+        } else if (usageRatio < 0.25) {
+            meterStyleClass = "low-use";
+        } else {
+            meterStyleClass = undefined;
+        }
+    });
+
     const formatBytes = (bytes: number) => {
         if (bytes === 0) return `0 kb`;
 
@@ -35,18 +53,38 @@
 
         return `${formattedNumber} ${units[unitIndex]}`;
     };
+
+    const formatPercentage = () => {
+        const total = (storedAmount / maxStorage) * 100;
+
+        let formattedNumber;
+
+        if (Number.isInteger(total)) {
+            formattedNumber = total.toString();
+        } else {
+            const twoDecimals = total.toFixed(2);
+            formattedNumber = twoDecimals.replace(/\.?0+$/, "");
+        }
+
+        return `${formattedNumber}%`;
+    };
 </script>
 
-<div>
-    <div class="u:fw-600">{locationName}</div>
+<div class="meter" aria-label={`${locationName} storage`}>
+    <div class="storage-title">{locationName}</div>
     {#if storageMessage}
         <p class="storage-message">{storageMessage}</p>
     {/if}
     {#if maxStorage}
-        <div>
+        <div
+            class={meterStyleClass
+                ? `meter-bar ${meterStyleClass}`
+                : "meter-bar"}
+            data-meter-percentage={(storedAmount / maxStorage) * 100}
+            style="--meter-percentage: {(storedAmount / maxStorage) * 100}%"
+        >
             <meter
-                class="meter"
-                id="storageUsage"
+                data-visually-hidden
                 value={storedAmount}
                 min="0"
                 max={maxStorage}
@@ -56,20 +94,33 @@
             >
         </div>
     {/if}
-    <div>
-        <span class="stored-amount">{formatBytes(storedAmount)}</span>
-        <span>/</span>
+    <div class="usage-recap c:spread-items">
+        <span>
+            <span class="stored-amount">
+                {#if !storedAmount}0 kb{:else}{formatBytes(storedAmount)}{/if}
+            </span>
+            <span class="max-storage">/</span>
+            {#if maxStorage}
+                <span class="max-storage">{formatBytes(maxStorage)}</span>
+            {:else}
+                <span class="max-storage">infinity</span>
+            {/if}
+        </span>
         {#if maxStorage}
-            <span>{formatBytes(maxStorage)}</span>
-        {:else}
-            <span>infinity</span>
+            <span class="usage-percentage">{formatPercentage()}</span>
         {/if}
     </div>
 </div>
 
 <style>
+    .storage-title {
+        font-weight: 600;
+        margin-block: var(--space-3xs);
+    }
+
     .storage-message {
         color: var(--hue-neutral-600);
+        margin-block: var(--space-3xs);
     }
 
     .stored-amount {
@@ -77,31 +128,47 @@
         font-weight: 600;
     }
 
-    .meter {
-        height: 30px;
-        width: 100%;
+    .meter-bar {
+        position: relative;
         display: block;
+        height: 6px;
+        margin-block: var(--space-2xs);
     }
-
-    .meter::-webkit-meter-bar,
-    .meter::-webkit-meter-inner-element {
-        background: var(--hue-neutral-300);
-        border-radius: 50px;
-    }
-
-    .meter::webkit-meter-optimum-value,
-    .meter::webkit-meter-suboptimum-value,
-    .meter::webkit-meter-even-less-good-value {
+    .meter-bar:before,
+    .meter-bar:after {
         border-radius: var(--radii-pill);
+        display: block;
+        content: "";
+        height: 6px;
+        position: absolute;
     }
 
-    .meter::webkit-meter-optimum-value {
-        background: green;
+    .meter-bar:before {
+        background-color: var(--hue-sand-200);
+        width: 100%;
     }
-    .meter::webkit-meter-suboptimum-value {
-        background: purple;
+
+    .meter-bar:after {
+        width: var(--meter-percentage, 0%);
+        background-color: var(--hue-green-500);
     }
-    .meter::webkit-meter-even-less-good-value {
-        background: blue;
+
+    .meter-bar.low-use:after {
+        background-color: var(--hue-emerald-500);
+    }
+
+    .meter-bar.high-use:after {
+        background-color: var(--hue-yellow-500);
+    }
+
+    .meter-bar.max-use:after {
+        background-color: var(--hue-orange-500);
+    }
+
+    .max-storage,
+    .usage-percentage {
+        color: var(--hue-sand-500);
+        font-size: var(--step--2);
+        font-weight: 600;
     }
 </style>
