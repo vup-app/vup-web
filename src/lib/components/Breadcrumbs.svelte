@@ -10,7 +10,7 @@
     {#if path.length > 1}
         <nav aria-label="File Directory">
             <ol class="breadcrumbs">
-                {#if path.length > 4}
+                {#if path.length > 5}
                     <li class="dir">
                         <button
                             class="dir-btn"
@@ -24,11 +24,21 @@
                         </span>
                     </li>
                 {/if}
-                {#each path.length > 4 ? path.slice(-4, -1) : path.slice(0, -1) as dir, index}
+                {#each path.length > 5 ? path.slice(-4, -1) : path.slice(0, -1) as dir, index}
                     <li class="dir">
                         <button
                             class="dir-btn"
-                            onclick={() => handleDirChange(dir)}>{dir}</button
+                            onclick={() =>
+                                handleDirChange(
+                                    path
+                                        .slice(
+                                            0,
+                                            path.length > 5
+                                                ? index + path.length - 3
+                                                : index + 1,
+                                        )
+                                        .join("/"),
+                                )}>{dir}</button
                         >
                     </li>
                 {/each}
@@ -84,14 +94,14 @@
         }
     }
 
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
         .dir:after {
-            color: var(--hue-neutral-800);
+            color: var(--hue-neutral-800); */
             /* outline: 1px solid red; */
-        }
+        /* }
 
         .dir-btn:focus {
             outline-color: var(--hue-amber-700);
         }
-    }
+    } */
 </style>

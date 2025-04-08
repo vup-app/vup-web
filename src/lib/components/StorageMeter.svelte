@@ -25,20 +25,20 @@
     });
 
     const formatBytes = (bytes: number) => {
-        if (bytes === 0) return `0 kb`;
+        if (bytes === 0) return `0 kB`;
 
-        const units = ["kb", "mb", "gb", "tb", "pb"];
+        const units = ["kB", "MB", "GB", "TB", "PB"];
 
-        let size = bytes / 1024;
+        let size = bytes / 1000;
 
         if (size > 0 && size < 0.01) {
-            return `0.01 kb`;
+            return `0.01 kB`;
         }
 
         let unitIndex = 0;
 
-        while (size >= 1024 && unitIndex < units.length - 1) {
-            size = size / 1024;
+        while (size >= 1000 && unitIndex < units.length - 1) {
+            size = size / 1000;
             unitIndex++;
         }
 
@@ -97,7 +97,7 @@
     <div class="usage-recap c:spread-items">
         <span>
             <span class="stored-amount">
-                {#if !storedAmount}0 kb{:else}{formatBytes(storedAmount)}{/if}
+                {#if !storedAmount}0 kB{:else}{formatBytes(storedAmount)}{/if}
             </span>
             <span class="max-storage">/</span>
             {#if maxStorage}

@@ -7,9 +7,9 @@
         color: var(--hue-neutral-800);
     }
 
-    @media (prefers-color-scheme: dark) {
+  /*   @media (prefers-color-scheme: dark) {
         .td-cell {
             color: var(--hue-neutral-200);
         }
-    }
+    } */
 </style>
