@@ -12,8 +12,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "filesize": "^10.1.6",
-    "s5": "git+https://github.com/s5-dev/s5.js.git"
+    "@redsolver/s5-wasm": "1.0.0-beta.1",
+    "filesize": "^10.1.6"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",

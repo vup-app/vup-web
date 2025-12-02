@@ -15,6 +15,7 @@
     }
 
     async function createDirectory() {
+        if (!app.s5) return;
         const name = prompt("Name your new directory:");
         if (name) {
             try {
@@ -22,7 +23,9 @@
                     throw "Invalid Name, contains / character";
                 }
                 const path = app.path.join("/");
-                await app.s5.fs.createDirectory(path, name);
+                // In WASM, create_directory takes the full path
+                const fullPath = path + "/" + name;
+                await app.s5.create_directory(fullPath);
                 app.currentDirectory = undefined;
                 app.updateDirectory(path);
             } catch (e) {
@@ -31,16 +34,22 @@
         }
     }
     async function uploadFiles() {
+        if (!app.s5) return;
         var input = document.createElement("input");
         input.type = "file";
         input.onchange = async (e) => {
+            if (!app.s5) return;
+            // @ts-ignore
             console.log(e.target.files);
+            // @ts-ignore
             const file: File = e.target.files[0];
 
             const path = app.path.join("/");
 
-            const fileVersion = await app.s5.fs.uploadBlobEncrypted(file);
-            await app.s5.fs.createFile(path, file.name, fileVersion, file.type);
+            const arrayBuffer = await file.arrayBuffer();
+            const content = new Uint8Array(arrayBuffer);
+            
+            await app.s5.upload_file(path, file.name, content, file.type);
 
             app.currentDirectory = undefined;
             app.updateDirectory(path);

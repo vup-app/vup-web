@@ -9,16 +9,35 @@
 
     import { app } from "../../state.svelte";
 
-    import type { FS5Directory } from "s5/src/fs/directory";
     import { filesize } from "filesize";
 
-    const dir: FS5Directory = app.currentDirectory;
+    const dir: any = app.currentDirectory;
 
-    function clickFile(name: string) {
+    async function clickFile(name: string) {
+        if (!app.s5) return;
         const file = dir?.files[name]!;
-        const cid = file.cidString;
-        const mediaType = file.mediaType;
-        window.location.href = `/s5/blob/${cid}?mediaType=${mediaType}`; // &filename=${name}
+        const path = app.path.join("/") + "/" + name;
+        
+        try {
+            // Download the file bytes (decrypts if encrypted)
+            const bytes = await app.s5.download_file(path);
+            
+            // Create a blob and download it - use slice to ensure we have an ArrayBuffer
+            const blob = new Blob([new Uint8Array(bytes)], { type: file.media_type || 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create download link
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error("Download failed:", e);
+            alert("Download failed: " + e);
+        }
     }
     function clickDirectory(dirName: string) {
         app.currentDirectory = undefined;
@@ -48,9 +67,9 @@
                 <TableDataCell>{d}/</TableDataCell>
                 <TableDataCell></TableDataCell>
                 <TableDataCell
-                    >{new Date(
-                        Number(dir.directories[d].created),
-                    ).toLocaleString()}</TableDataCell
+                    >{dir.directories[d].created != null
+                        ? new Date(Number(dir.directories[d].created)).toLocaleString()
+                        : ''}</TableDataCell
                 >
             </tr>
         {/each}

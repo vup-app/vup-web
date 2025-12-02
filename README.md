@@ -1,38 +1,132 @@
-# sv
+# Vup Web
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A web-based file manager for the S5 decentralized storage network, built with SvelteKit and powered by [s5-rust](https://github.com/s5-dev/s5-rs) via WebAssembly.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Account Creation/Login**: Generate or recover your S5 identity using a BIP39 seed phrase
+- **Directory Management**: Create and navigate directories
+- **File Upload**: Upload files to remote S5 nodes with end-to-end encryption
+- **File Download**: Download and decrypt files from the network
 
-```bash
-# create a new project in the current directory
-npx sv create
+All data is end-to-end encrypted using your seed phrase - remote nodes only see encrypted blobs.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Prerequisites
 
-## Developing
+- [Bun](https://bun.sh/) (recommended) or Node.js 18+
+- A modern browser with WebAssembly support
+- A running S5 node for storage (see [Setting Up an S5 Node](#setting-up-an-s5-node))
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Setting Up an S5 Node
 
-```bash
-npm run dev
+Vup Web requires a remote S5 node to store encrypted data. Follow these steps to set up your own node:
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+### 1. Install the S5 CLI
 
 ```bash
-npm run build
+cargo install --git https://github.com/s5-dev/s5-rs s5_cli
 ```
 
-You can preview the production build with `npm run preview`.
+### 2. Initialize S5
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+s5 init
+```
+
+### 3. Configure the Node
+
+Edit `~/.config/s5/local.toml` to allow anonymous uploads:
+
+```toml
+[identity]
+secret_key_file = "local.secretkey"
+
+[store.default]
+type = "local"
+base_path = "/home/YOUR_USERNAME/.local/share/s5/anon_uploads"
+
+# Allow anonymous uploads from anyone
+[peer."*"]
+id = "*"
+
+[peer."*".blobs]
+readable_stores = ["default"]
+store_uploads_in = "default"
+```
+
+### 4. Start the Node
+
+```bash
+s5 start
+```
+
+The node will output its public ID on startup. Copy this ID.
+
+### 5. Configure Vup Web
+
+Update `src/state.svelte.ts` with your node's public ID:
+
+```typescript
+const REMOTE_NODE_ID = "your_node_public_id_here";
+```
+
+## Getting Started
+
+### Install Dependencies
+
+```bash
+bun install
+```
+
+### Development
+
+Start the development server:
+
+```bash
+bun run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Build for Production
+
+```bash
+bun run build
+```
+
+Preview the production build:
+
+```bash
+bun run preview
+```
+
+## Testing the Application
+
+1. Ensure your S5 node is running (`s5 start`)
+2. Start the dev server with `bun run dev`
+3. Open the app in your browser
+4. **Create Account**: A seed phrase will be generated automatically. Save it securely and check the confirmation box, then click "Create account"
+5. **Sign In**: If you already have an account, click "Sign In instead" and enter your seed phrase
+6. **Browse Files**: Navigate directories using the breadcrumb navigation or Quick Access sidebar
+7. **Create Directory**: Click "Create Directory" and enter a name
+8. **Upload Files**: Click "Upload Files" to select and upload a file
+9. **Download Files**: Click on any file to download it
+
+## Technology Stack
+
+- **Framework**: [SvelteKit](https://kit.svelte.dev/) with Svelte 5
+- **S5 Client**: [@redsolver/s5-wasm](https://www.npmjs.com/package/@redsolver/s5-wasm) - Rust/WASM bindings for S5
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **UI Components**: Custom Svelte components with Storybook
+
+## Storybook
+
+View and develop UI components in isolation:
+
+```bash
+bun run storybook
+```
+
+## License
+
+See [LICENSE](./LICENSE) for details.

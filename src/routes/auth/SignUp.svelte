@@ -6,23 +6,27 @@
     import Checkbox from "$lib/components/Checkbox.svelte";
     import { writable } from "svelte/store";
 
+    import { generate_seed_phrase } from "@redsolver/s5-wasm";
+
     let passphrase = $state<string>("");
     let passphraseConfirmed = writable<boolean>(false);
     let isDisabled = $state<boolean>(false);
 
-    passphrase = app.s5.generateSeedPhrase();
+    // Generate initial passphrase once WASM is ready
+    $effect(() => {
+        if (app.isInitialized && !passphrase) {
+            passphrase = generate_seed_phrase();
+        }
+    });
 
     function getNewPassphrasFn() {
-        passphrase = app.s5.generateSeedPhrase();
+        passphrase = generate_seed_phrase();
     }
 
     async function createIdentity() {
         try {
             isDisabled = true;
-            await app.s5.recoverIdentityFromSeedPhrase(passphrase);
-            await app.s5.registerOnNewPortal("https://s5.vup.cx");
-            await app.s5.fs.ensureIdentityInitialized();
-            app.markLoggedIn();
+            await app.login(passphrase);
         } catch (e) {
             alert(e);
         }
@@ -45,7 +49,7 @@
             checked={passphraseConfirmed}
             label="I made a backup of my passphrase"
             {isDisabled}
-            isRequired,
+            isRequired={true}
         />
     </div>
 

@@ -8,15 +8,13 @@
     let isDisabled = $state<boolean>(false);
     let isPassphraseTooShort = derived(
         passphrase,
-        (value) => value.split(" ").length < 15,
+        (value) => value.split(" ").length < 12,
     );
 
     async function recoverIdentity() {
         try {
             isDisabled = true;
-            await app.s5.recoverIdentityFromSeedPhrase($passphrase);
-            await app.s5.fs.ensureIdentityInitialized();
-            app.markLoggedIn();
+            await app.login($passphrase);
         } catch (e) {
             alert(e);
         }
@@ -32,7 +30,6 @@
     </p>
 
     <InputText
-        class="passphrase-input-field"
         label="passphrase"
         placeholder="lorem ipsum dolor"
         isRequired={true}
@@ -58,8 +55,4 @@
     />
 </div>
 
-<style>
-    .input {
-        width: 100rem;
-    }
-</style>
+
